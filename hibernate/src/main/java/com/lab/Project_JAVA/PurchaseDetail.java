@@ -28,4 +28,56 @@ public class PurchaseDetail {
     @Column(name = "unitCost", length = 10, nullable = false)
     private double unitCost;
 
+    public PurchaseDetail() {
+
+    }
+
+    public PurchaseDetail(int purchaseDetailID, Purchase purchase, SparePart sparePart, int qty, double unitCost) {
+        this.purchaseDetailID = purchaseDetailID;
+        this.purchase = purchase;
+        this.sparePart = sparePart;
+        this.qty = qty;
+        this.unitCost = unitCost;
+    }
+
+    public int getPurchaseDetailID() {
+        return purchaseDetailID;
+    }
+
+    public void setPurchaseDetailID(int purchaseDetailID) {
+        this.purchaseDetailID = purchaseDetailID;
+    }
+
+    public Purchase getPurchase() {
+        return purchase;
+    }
+
+    public void setPurchase(Purchase purchase) {
+        this.purchase = purchase;
+    }
+
+    public SparePart getSparePart() {
+        return sparePart;
+    }
+
+    public void setSparePart(SparePart sparePart) {
+        this.sparePart = sparePart;
+    }
+
+    public int getQty() {
+        return qty;
+    }
+
+    public void setQty(int qty) {
+        this.qty = qty;
+    }
+
+    public double getUnitCost() {
+        return unitCost;
+    }
+
+    public void setUnitCost(double unitCost) {
+        this.unitCost = unitCost;
+    }
+
 }

@@ -20,6 +20,10 @@ public class Quotation {
     @JoinColumn(name = "PartID")
     private SparePart sparePart;
 
+    @ManyToOne
+    @JoinColumn(name = "TechnicianID")
+    private Technician technician;
+
     @Column(name = "workDescription", nullable = false)
     private String workDescription;
 
@@ -36,22 +40,24 @@ public class Quotation {
 
     }
 
-    public Quotation(QuotationKey id, RepairJob repairJob, SparePart sparePart, String workDescription,
-            Calendar workDate, int amount, Calendar dateWithdraw) {
+    public Quotation(QuotationKey id, RepairJob repairJob, SparePart sparePart, Technician technician,
+            String workDescription, Calendar workDate, int amount, Calendar dateWithdraw) {
         this.id = id;
         this.repairJob = repairJob;
         this.sparePart = sparePart;
+        this.technician = technician;
         this.workDescription = workDescription;
         this.workDate = workDate;
         this.amount = amount;
         this.dateWithdraw = dateWithdraw;
     }
 
-    public Quotation(RepairJob repairJob, SparePart sparePart, String workDescription,
+    public Quotation(RepairJob repairJob, SparePart sparePart, Technician technician, String workDescription,
             Calendar workDate, int amount, Calendar dateWithdraw) {
+        this.id = new QuotationKey(repairJob.getJobID(), sparePart.getPartID());
         this.repairJob = repairJob;
         this.sparePart = sparePart;
-        this.id = new QuotationKey(repairJob.getJobID(), sparePart.getPartID());
+        this.technician = technician;
         this.workDescription = workDescription;
         this.workDate = workDate;
         this.amount = amount;
@@ -80,6 +86,14 @@ public class Quotation {
 
     public void setSparePart(SparePart sparePart) {
         this.sparePart = sparePart;
+    }
+
+    public Technician getTechnician() {
+        return technician;
+    }
+
+    public void setTechnician(Technician technician) {
+        this.technician = technician;
     }
 
     public String getWorkDescription() {

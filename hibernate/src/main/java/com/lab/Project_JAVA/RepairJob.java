@@ -41,6 +41,34 @@ public class RepairJob {
     @Column(name = "status", nullable = false)
     private String status;
 
+    public RepairJob() {
+
+    }
+
+    public RepairJob(int jobID, String modelName, String typeName, String brand, Calendar dateReceived,
+            Calendar appoinmentDate, String status) {
+        this.jobID = jobID;
+        this.modelName = modelName;
+        this.typeName = typeName;
+        this.brand = brand;
+        this.dateReceived = dateReceived;
+        this.appoinmentDate = appoinmentDate;
+        this.status = status;
+    }
+
+    public RepairJob(int jobID, Customer customer, Technician technician, String modelName, String typeName,
+            String brand, Calendar dateReceived, Calendar appoinmentDate, String status) {
+        this.jobID = jobID;
+        this.customer = customer;
+        this.technician = technician;
+        this.modelName = modelName;
+        this.typeName = typeName;
+        this.brand = brand;
+        this.dateReceived = dateReceived;
+        this.appoinmentDate = appoinmentDate;
+        this.status = status;
+    }
+
     public int getJobID() {
         return jobID;
     }
@@ -55,6 +83,38 @@ public class RepairJob {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public Technician getTechnician() {
+        return technician;
+    }
+
+    public void setTechnician(Technician technician) {
+        this.technician = technician;
+    }
+
+    public String getModelName() {
+        return modelName;
+    }
+
+    public void setModelName(String modelName) {
+        this.modelName = modelName;
+    }
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 
     public Calendar getDateReceived() {
@@ -80,4 +140,5 @@ public class RepairJob {
     public void setStatus(String status) {
         this.status = status;
     }
+
 }

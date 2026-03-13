@@ -31,7 +31,7 @@ public class SparePart {
         this.partID = partID;
         this.partName = partName;
         this.price = price;
-        QtySpare = qtySpare;
+        this.QtySpare = qtySpare;
     }
 
     public int getPartID() {
@@ -54,7 +54,7 @@ public class SparePart {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
