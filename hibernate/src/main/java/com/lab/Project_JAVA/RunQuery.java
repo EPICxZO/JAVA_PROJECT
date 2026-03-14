@@ -8,7 +8,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import com.lab.util.HibernateConnection;
-import com.mysql.cj.log.Log;
 
 public class RunQuery {
     @SuppressWarnings({ "unchecked", "deprecation", "rawtypes" })
