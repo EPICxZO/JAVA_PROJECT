@@ -2,6 +2,8 @@ package com.lab.Project_JAVA;
 
 import org.hibernate.query.Query;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -135,18 +137,24 @@ public class RunQuery {
                 System.out.println("JobID: " + row[0] + " Average Rating: " + row[1]);
             }
 
-            // 10 แสดงงานซ่อมพร้อมลูกค้าและราคาทั้งหมด
-            String hql10 = "SELECT r.jobID, r.customer.customerName, rc.totalPrice "
+            // 10 แสดงใบเสร็จของลูกค้าตามรหัสลูกค้า
+            String hql10 = "SELECT rc.receiptID, r.jobID, rc.dateIssued, r.customer.customerName, rc.totalPrice "
                     + "FROM Receipt rc "
-                    + "JOIN rc.repairJob1 r";
+                    + "JOIN rc.repairJob1 r "
+                    + "WHERE r.customer.customerID = :ID";
             Query query10 = session.createQuery(hql10, Object[].class);
+            query10.setParameter("ID", 10001);
             List<Object[]> rows10 = query10.getResultList();
 
             System.out.println("//---------------(10)---------------//");
+            SimpleDateFormat fm = new SimpleDateFormat("dd/MM/yyyy");
             for (Object[] row : rows10) {
-                System.out.println("JobID: " + row[0]
-                        + "\nCustomer: " + row[1]
-                        + "\nTotalPrice: " + row[2]);
+                Calendar date = (Calendar) row[2];
+                System.out.println("ReceiptID: " + row[0]
+                        + "\nJobID: " + row[1]
+                        + "\nDateIssued: " + fm.format(date.getTime())
+                        + "\nCustomer: " + row[3]
+                        + "\nTotalPrice: " + row[4]);
             }
 
             tx.commit();
