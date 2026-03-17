@@ -26,7 +26,7 @@ public class RunQuery {
 
             System.out.println("//---------------(1)---------------//");
             for (Object[] row : rows1) {
-                System.out.println(row[0] + " " + row[1] + " " + row[2]);
+                System.out.println("JobID: " + row[0] + " Customer: " + row[1] + " Status: " + row[2]);
             }
 
             // 2 หาอะไหล่ที่ใกล้หมด
@@ -55,7 +55,7 @@ public class RunQuery {
 
             System.out.println("//---------------(3)---------------//");
             for (Object[] row : rows3) {
-                System.out.println(row[0] + " " + row[1] + " " + row[2]);
+                System.out.println("JobID: " + row[0] + " Customer: " + row[1] + " Rating = " + row[2]);
             }
 
             // 4 รวมจำนวนอะไหล่ที่ใช้ในแต่ละงาน
@@ -68,23 +68,28 @@ public class RunQuery {
 
             System.out.println("//---------------(4)---------------//");
             for (Object[] row : rows4) {
-                System.out.println(row[0] + " " + row[1]);
+                System.out.println("JobID: " + row[0] + " Amount: " + row[1]);
             }
 
-            // 5 หาราคาสูงสุดของอะไหล่
-            String hql5 = "SELECT MAX(price) "
-                    + "FROM SparePart";
-            Query query5 = session.createQuery(hql5, Double.class);
-            Double maxPrice = (Double) query5.uniqueResult();
+            // 5 เรียงราคาของของงานจากมากไปน้อย
+            String hql5 = "SELECT r.jobID, MAX(rc.totalPrice) "
+                    + "FROM Receipt rc "
+                    + "JOIN rc.repairJob1 r "
+                    + "GROUP BY r.jobID "
+                    + "ORDER BY MAX(rc.totalPrice) DESC";
+            Query query5 = session.createQuery(hql5, Object[].class);
+            List<Object[]> rows5 = query5.getResultList();
 
             System.out.println("//---------------(5)---------------//");
-            System.out.println("Max Price: " + maxPrice);
+            for (Object[] row : rows5) {
+                System.out.println("JobID: " + row[0] + " TotalPrice: " + row[1]);
+            }
 
             // 6 นับจำนวนงานซ่อมทั้งหมด
             String hql6 = "SELECT COUNT(jobID) "
                     + "FROM RepairJob";
-            Query<Long> query6 = session.createQuery(hql6, Long.class);
-            Long totalJobs = query6.uniqueResult();
+            Query query6 = session.createQuery(hql6, Long.class);
+            Long totalJobs = (Long) query6.uniqueResult();
 
             System.out.println("//---------------(6)---------------//");
             System.out.println("Total Repair Jobs: " + totalJobs);
@@ -93,7 +98,7 @@ public class RunQuery {
             String hql7 = "SELECT c.customerName, r.jobID "
                     + "FROM RepairJob r "
                     + "LEFT JOIN  r.customer c";
-            Query<Object[]> query7 = session.createQuery(hql7, Object[].class);
+            Query query7 = session.createQuery(hql7, Object[].class);
             List<Object[]> rows7 = query7.getResultList();
 
             System.out.println("//---------------(7)---------------//");
@@ -107,7 +112,7 @@ public class RunQuery {
                     + "JOIN r.customer c "
                     + "GROUP BY c.customerName "
                     + "HAVING COUNT(r.jobID) > 1";
-            Query<Object[]> q8 = session.createQuery(hql8, Object[].class);
+            Query q8 = session.createQuery(hql8, Object[].class);
             List<Object[]> rows8 = q8.getResultList();
 
             System.out.println("//---------------(8)---------------//");
@@ -121,7 +126,7 @@ public class RunQuery {
                     + "JOIN rv.repairJob rj "
                     + "GROUP BY rj.jobID "
                     + "HAVING AVG(rv.rating) > :score";
-            Query<Object[]> query9 = session.createQuery(hql9, Object[].class);
+            Query query9 = session.createQuery(hql9, Object[].class);
             query9.setParameter("score", 4.0);
             List<Object[]> rows9 = query9.getResultList();
 
@@ -130,17 +135,18 @@ public class RunQuery {
                 System.out.println("JobID: " + row[0] + " Average Rating: " + row[1]);
             }
 
-            // 10 หาอะไหล่ที่ชื่อขึ้นต้นด้วยตัวอักษร B
-            String hql10 = "FROM SparePart s "
-                    + "WHERE s.partName LIKE :name";
-            Query<SparePart> query10 = session.createQuery(hql10, SparePart.class);
-            query10.setParameter("name", "B%");
-            List<SparePart> parts = query10.getResultList();
+            // 10 แสดงงานซ่อมพร้อมลูกค้าและราคาทั้งหมด
+            String hql10 = "SELECT r.jobID, r.customer.customerName, rc.totalPrice "
+                    + "FROM Receipt rc "
+                    + "JOIN rc.repairJob1 r";
+            Query query10 = session.createQuery(hql10, Object[].class);
+            List<Object[]> rows10 = query10.getResultList();
 
             System.out.println("//---------------(10)---------------//");
-            for (SparePart s : parts) {
-                System.out.println(
-                        "PartID: " + s.getPartID() + " \nPartName: " + s.getPartName() + " \nPrice: " + s.getPrice());
+            for (Object[] row : rows10) {
+                System.out.println("JobID: " + row[0]
+                        + "\nCustomer: " + row[1]
+                        + "\nTotalPrice: " + row[2]);
             }
 
             tx.commit();
