@@ -24,6 +24,7 @@ public class RunQuery {
             query1.setParameter("status", "กำลังซ่อม");
             List<Object[]> rows1 = query1.getResultList();
 
+            System.out.println("//---------------(1)---------------//");
             for (Object[] row : rows1) {
                 System.out.println(row[0] + " " + row[1] + " " + row[2]);
             }
@@ -37,6 +38,7 @@ public class RunQuery {
             query2.setParameter("qty", 5);
             List<Object[]> rows2 = query2.getResultList();
 
+            System.out.println("//---------------(2)---------------//");
             for (Object[] row : rows2) {
                 System.out.println(row[0] + " " + row[1]);
             }
@@ -51,6 +53,7 @@ public class RunQuery {
             query3.setParameter("score", 4);
             List<Object[]> rows3 = query3.getResultList();
 
+            System.out.println("//---------------(3)---------------//");
             for (Object[] row : rows3) {
                 System.out.println(row[0] + " " + row[1] + " " + row[2]);
             }
@@ -63,6 +66,7 @@ public class RunQuery {
             Query query4 = session.createQuery(hql4);
             List<Object[]> rows4 = query4.getResultList();
 
+            System.out.println("//---------------(4)---------------//");
             for (Object[] row : rows4) {
                 System.out.println(row[0] + " " + row[1]);
             }
@@ -73,6 +77,7 @@ public class RunQuery {
             Query query5 = session.createQuery(hql5, Double.class);
             Double maxPrice = (Double) query5.uniqueResult();
 
+            System.out.println("//---------------(5)---------------//");
             System.out.println("Max Price: " + maxPrice);
 
             // 6 นับจำนวนงานซ่อมทั้งหมด
@@ -81,6 +86,7 @@ public class RunQuery {
             Query<Long> query6 = session.createQuery(hql6, Long.class);
             Long totalJobs = query6.uniqueResult();
 
+            System.out.println("//---------------(6)---------------//");
             System.out.println("Total Repair Jobs: " + totalJobs);
 
             // 7 แสดงลูกค้าทุกคนพร้อมงานซ่อม
@@ -90,6 +96,7 @@ public class RunQuery {
             Query<Object[]> query7 = session.createQuery(hql7, Object[].class);
             List<Object[]> rows7 = query7.getResultList();
 
+            System.out.println("//---------------(7)---------------//");
             for (Object[] row : rows7) {
                 System.out.println("Customer: " + row[0] + " JobID: " + row[1]);
             }
@@ -103,6 +110,7 @@ public class RunQuery {
             Query<Object[]> q8 = session.createQuery(hql8, Object[].class);
             List<Object[]> rows8 = q8.getResultList();
 
+            System.out.println("//---------------(8)---------------//");
             for (Object[] r : rows8) {
                 System.out.println("Customer: " + r[0] + " Jobs: " + r[1]);
             }
@@ -117,6 +125,7 @@ public class RunQuery {
             query9.setParameter("score", 4.0);
             List<Object[]> rows9 = query9.getResultList();
 
+            System.out.println("//---------------(9)---------------//");
             for (Object[] row : rows9) {
                 System.out.println("JobID: " + row[0] + " Average Rating: " + row[1]);
             }
@@ -128,6 +137,7 @@ public class RunQuery {
             query10.setParameter("name", "B%");
             List<SparePart> parts = query10.getResultList();
 
+            System.out.println("//---------------(10)---------------//");
             for (SparePart s : parts) {
                 System.out.println(
                         "PartID: " + s.getPartID() + " \nPartName: " + s.getPartName() + " \nPrice: " + s.getPrice());

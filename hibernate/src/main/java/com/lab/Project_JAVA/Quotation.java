@@ -40,12 +40,8 @@ public class Quotation {
 
     }
 
-    public Quotation(QuotationKey id, RepairJob repairJob, SparePart sparePart, Technician technician,
-            String workDescription, Calendar workDate, int amount, Calendar dateWithdraw) {
+    public Quotation(QuotationKey id, String workDescription, Calendar workDate, int amount, Calendar dateWithdraw) {
         this.id = id;
-        this.repairJob = repairJob;
-        this.sparePart = sparePart;
-        this.technician = technician;
         this.workDescription = workDescription;
         this.workDate = workDate;
         this.amount = amount;
